@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 });
 
 //app.listen method is identical to node's http.Server.listen()" - but in reality it creates a new http server leaving the one with socket.io non-operational.
-const server = http.listen(3000, ()=> {
+const server = http.listen( process.env.PORT || 3000, ()=> {
   console.log("server is running on port", server.address().port)
 });
 

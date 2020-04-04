@@ -1,4 +1,4 @@
-// the console logs of this file wil be printed in the console of browser.
+// the console logs of this file wil be printed in the console of browser since this script is injected in the index.html
 
 var socket = io();
 $( function() {
@@ -12,7 +12,7 @@ $('form').submit(function(e){
 socket.on('return message', function(obj){
     console.log('Inside return message');
     console.log(obj.username);
-    console.log(obj.message);
+    console.log(obj.msg);
     $('#messages').append('<li>' + '<strong>'+ obj.username + '</strong>:  '+ obj.msg + '</li>');
 
 });
@@ -28,9 +28,11 @@ socket.on('disconnect',function(msg){
 const username = prompt("Please enter your name");
 socket.emit('username',username);
 
+// User is typing functionality implementation
 
 var typingTimer;                
 const doneTypingInterval = 100;
+
 $('#m').keydown(function(){
     clearTimeout(typingTimer);
     socket.emit('typing');
@@ -42,14 +44,14 @@ $('#m').keyup(function(){
 });
 
 function doneTyping(){
-    console.log('Done Typing');
+    console.log('Typing Finished');
     socket.emit('stop typing');
 }
 
 socket.on('typing',(obj)=>{
     console.log(obj.username + " is typing.....");
     //$('#messages').append( '<li>'+ obj.username + " is typing..... </li>");
-    $('#typing-indicator').empty();
+    $('#typing-indicator').empty();     // empty the list first so that there's only one entry of user is typing
     $('#typing-indicator').append( '<li>'+ obj.username + " is typing..... </li>");
 });
 
